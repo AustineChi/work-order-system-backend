@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Assets = require("../models/Assets");
+const Assets = require("../models/assets");
 
 
 exports.index = (req, res) => {

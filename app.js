@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const assets = require('./routes/assets');
 const workOrders = require('./routes/workOrders')
 const locations = require('./routes/locations')
+const parts = require('./routes/parts')
 
 app.use(bodyParser.json());
 
