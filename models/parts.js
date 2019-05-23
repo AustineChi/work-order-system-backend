@@ -7,16 +7,14 @@ const partSchema = mongoose.Schema({
     unitCost: Number,
     quantity: Number,
     minimumPartQuantity: Number,
-    barcode: Number,
+    serialNumber: Number,
     partArea: String,
     additionalDetails: String,
     assignedUsers: Array,
     assignedTeams: Array,
     assignedCustomers: Array,
-    selectLocation: String,
-    created: { 
-        type: Date, 
-    },
+    location: String,
+    updated: { type: Date, default: Date.now }
 });
 
 module.exports =  mongoose.model('Parts', partSchema);

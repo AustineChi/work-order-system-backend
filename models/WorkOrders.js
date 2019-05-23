@@ -8,14 +8,12 @@ const workOrderSchema = mongoose.Schema({
     estimatedDuration: Number,
     priority: String,
     category: String,
-    recurringSchedule: String,
     assignedTo: String,
     additionalWorkers: Array,
     location: String,
     assets: Array,
-    created: { 
-        type: Date, 
-    },
+    created: {ype: Date},
+    updated: { type: Date, default: Date.now }
 });
 
 module.exports =  mongoose.model('WorkOrder', workOrderSchema);

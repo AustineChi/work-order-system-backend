@@ -4,7 +4,7 @@ const assetSchema = mongoose.Schema({
     assetName: String,
     description: String,
     model: String,
-    barcode: String,
+    serialNumber: String,
     assetCategory: String,
     location: String,
     area: String,
@@ -12,11 +12,10 @@ const assetSchema = mongoose.Schema({
     primaryUser: String,
     assignedUsers: Array,
     assignedTeams: Array,
+    assignedVendors: Array,
     assignedCustomers: Array,
-    selectLocation: String,
-    created: { 
-        type: Date, 
-    },
+    updated: { type: Date, default: Date.now }
+
 });
 
 module.exports =  mongoose.model('Assets', assetSchema);

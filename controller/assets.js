@@ -25,7 +25,7 @@ exports.add = (req, res) => {
 
 module.exports.view = function(req, res) {
   Assets.findOne({ _id: req.params.id }, function(err, Assets) {
-    if (err)  return res.json({ message: "Assets ID is wrong" });
+    if (err)  return res.json({ message: "No Asset found" });
     return res.status(200).json(Assets);
   });
 };
@@ -45,6 +45,6 @@ module.exports.update = function(req, res) {
 module.exports.delete = (req, res) => {
   Assets.deleteOne({ _id: req.params.id }, function(err) {
     if (err) return res.json({message: err.message});
-    res.json({message: "Assets has been deleted"});
+    res.json({message: "Asset has been deleted"});
   });
 };

@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use('/api/assets', assets);
 app.use('/api/work/orders', workOrders);
 app.use('/api/locations', locations);
+app.use('/api/parts', parts);
 
 
 
