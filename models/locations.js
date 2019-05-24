@@ -2,10 +2,7 @@ const mongoose = require( 'mongoose' );
 
 const locationSchema = mongoose.Schema({     
     name: String,
-    address: String,
-    created: { 
-        type: Date, 
-    },
+    address: String
 });
 
 module.exports =  mongoose.model('Locations', locationSchema);

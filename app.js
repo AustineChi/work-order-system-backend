@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const assets = require('./routes/assets');
 const workOrders = require('./routes/workOrders')
 const locations = require('./routes/locations')
+const teams = require('./routes/teams')
 const parts = require('./routes/parts')
 
 app.use(bodyParser.json());
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use('/api/assets', assets);
 app.use('/api/work/orders', workOrders);
 app.use('/api/locations', locations);
+app.use('/api/teams', teams);
 app.use('/api/parts', parts);
 
 

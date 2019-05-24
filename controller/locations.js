@@ -11,7 +11,6 @@ exports.index = (req, res) => {
 
 exports.add = (req, res) => {
   const data = req.body;
-  data.created = new Date();
   const location = new Location(data);
   const { error } = validation(data);
   if (error) return res.status(400).send(error.details[0].message);
