@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Assets = require("../models/assets");
 const Joi = require('@hapi/joi');
 
@@ -22,9 +21,9 @@ exports.add = (req, res) => {
 };
 
 module.exports.view = function(req, res) {
-  Assets.findOne({ _id: req.params.id }, function(err, Assets) {
+  Assets.findOne({ _id: req.params.id }, function(err, data) {
     if (err)  return res.json({ message: "No Asset found" });
-    return res.status(200).json(Assets);
+    return res.status(200).json(data);
   });
 };
 
@@ -56,7 +55,17 @@ function validation(_data) {
     description: Joi.string().min(10).required(),
     assetCategory: Joi.string().required(),
     location: Joi.string().required(),
-    primaryUser: Joi.string().required()
+    primaryUser: Joi.string().required(),
+    area: Joi.string(),
+    assignedCustomers: Joi.array(),
+    assignedTeams: Joi.array(),
+    assignedUsers: Joi.array(),
+    assignedVendors: Joi.array(),
+    model: Joi.string(),
+    active: Joi.string(),
+    parentAsset: Joi.string(),
+    serialNumber: Joi.number().integer()
   }
   return Joi.validate(_data, schema);
 }
+

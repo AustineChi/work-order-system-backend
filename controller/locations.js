@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const Location = require("../models/locations");
 const Joi = require('@hapi/joi');
 
@@ -26,9 +25,9 @@ exports.add = (req, res) => {
 };
 
 module.exports.view = function(req, res) {
-  Location.findOne({ _id: req.params.id }, function(err, location) {
+  Location.findOne({ _id: req.params.id }, function(err, data) {
     if (err)  return res.json({ message: "Location not found" });
-    return res.status(200).json(location);
+    return res.status(200).json(data);
   });
 };
 

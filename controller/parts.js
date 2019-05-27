@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Parts = require("../models/parts");
 const Joi = require('@hapi/joi');
 
@@ -23,9 +22,9 @@ exports.add = (req, res) => {
   };
   
   module.exports.view = function(req, res) {
-    Parts.findOne({ _id: req.params.id }, function(err, part) {
+    Parts.findOne({ _id: req.params.id }, function(err, data) {
       if (err)  return res.json({ message: "Inventory not found" });
-      return res.status(200).json(part);
+      return res.status(200).json(data);
     });
   };
   
@@ -57,8 +56,17 @@ exports.add = (req, res) => {
       unitCost: Joi.number().integer().required(),
       quantity: Joi.number().integer().required(),
       minimumPartQuantity: Joi.number().integer().required(),
-      partArea: Joi.string().required()
+      partArea: Joi.string().required(),
+      additionalDetails: Joi.string().required(),
+      assignedCustomers: Joi.array(),
+      assignedTeams: Joi.array(),
+      assignedUsers: Joi.array(),
+      location: Joi.string(),
+      partCategory: Joi.string(),
+      serialNumber:  Joi.number().integer()
 
     }
     return Joi.validate(_data, schema);
   }
+
+

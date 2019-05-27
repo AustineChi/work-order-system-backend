@@ -9,9 +9,9 @@ var teamsController = require('../controller/teams');
 
 router.get('/', teamsController.index);
 router.post('/add', teamsController.add);
-// router.post('/submit', workOrdersController.submit);
-// router.get('/view/:id', workOrdersController.view);
-// router.post('/update/:id', workOrdersController.update);
- 
+router.get('/view/:id', teamsController.view);
+router.post('/update/:id', teamsController.update);
+router.delete('/delete/:id', teamsController.delete);
+
 
 module.exports = router;

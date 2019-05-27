@@ -9,9 +9,10 @@ const workOrderSchema = mongoose.Schema({
     priority: String,
     category: String,
     assignedTo: String,
-    additionalWorkers: Array,
+    additionalWorkers: [],
     location: String,
-    assets: Array,
+    assets: String,
+    parts: [{}],
     updated: { type: Date, default: Date.now }
 });
 

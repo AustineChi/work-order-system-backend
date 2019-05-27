@@ -9,11 +9,13 @@ const assetSchema = mongoose.Schema({
     location: String,
     area: String,
     parentAsset: String,
+    parts: [{}],
     primaryUser: String,
     assignedUsers: Array,
     assignedTeams: Array,
     assignedVendors: Array,
     assignedCustomers: Array,
+    active: { type: String, default: "active" },
     updated: { type: Date, default: Date.now }
 
 });
