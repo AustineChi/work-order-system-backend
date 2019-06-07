@@ -1,8 +1,8 @@
 const Location = require("../models/locations");
 const Joi = require('@hapi/joi');
 
-exports.index = (req, res) => {
-  Location.find().exec((err, data) => {
+exports.index = (req, res, next) => {
+  Location.find().sort({_id: -1}).exec((err, data) => {
     if (err) return next(err);
     return res.json(data);
   });
@@ -12,12 +12,13 @@ exports.add = (req, res) => {
   const data = req.body;
   const location = new Location(data);
   const { error } = validation(data);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.json({ success: false, message: error.details[0].message }).status(400)
   if (location.name && location.address) {
-    location.save(function(err) {
+    location.save(function(err) { 
       if (err) return res.json({ success: false, message: "An error occured!" });
-      // saved!
-      return res.json({ success: true, message: "New Location Created!" });
+      Location.find().sort({_id: -1}).limit(1).exec((err, data) => {
+        return res.json({ success: true, message: "New Location Created!", data : data[0] });
+      });
     });
   } else {
     return res.json({ success: false, message: "An error occured!" });

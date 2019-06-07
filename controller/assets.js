@@ -1,8 +1,8 @@
 const Assets = require("../models/assets");
 const Joi = require('@hapi/joi');
 
-exports.index = (req, res) => {
-  Assets.find().exec((err, data) => {
+exports.index = (req, res, next) => {
+  Assets.find().sort({_id: -1}).exec((err, data) => {
     if (err) return next(err);
     return res.json(data);
   });
@@ -12,11 +12,12 @@ exports.add = (req, res) => {
   const data = req.body;
   const asset = new Assets(data);
   const { error } = validation(data);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.json({ success: false, message: error.details[0].message }).status(400)
     asset.save(function(err) {
       if (err) return res.json({ success: false, message: "An error occured!" });
-      // saved!
-      return res.json({ success: true, message: "New Asset has been added!" });
+      Assets.find().sort({_id: -1}).limit(1).exec((err, data) => {
+        return res.json({ success: true, message: "New Asset has been added!", data: data[0] });
+      });
     });
 };
 
@@ -26,6 +27,13 @@ module.exports.view = function(req, res) {
     return res.status(200).json(data);
   });
 };
+
+exports.filteredView = (req, res, next)=>{
+  Assets.find(req.body).exec((err, doc)=>{
+      if (err) return next(err);
+      return res.json(doc);
+    })
+}
 
 module.exports.update = function(req, res) {
   let data = req.body;
@@ -60,7 +68,6 @@ function validation(_data) {
     assignedCustomers: Joi.array(),
     assignedTeams: Joi.array(),
     assignedUsers: Joi.array(),
-    assignedVendors: Joi.array(),
     model: Joi.string(),
     active: Joi.string(),
     parentAsset: Joi.string(),

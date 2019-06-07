@@ -1,8 +1,8 @@
 const WorkOrder = require("../models/workOrders");
 const Joi = require('@hapi/joi');
 
-exports.index = (req, res) => {
-  WorkOrder.find().exec((err, data) => {
+exports.index = (req, res, next) => {
+  WorkOrder.find().sort({_id: -1}).exec((err, data) => {
     if (err) return next(err);
     return res.json(data);
   });
@@ -12,11 +12,12 @@ exports.add = (req, res) => {
   const data = req.body;
   const workOrder = new WorkOrder(data);
   const { error } = validation(data);
-  if (error) return res.status(400).send(error.details[0].message);
-    workOrder.save(function(err) {
+  if (error) return res.json({ success: false, message: error.details[0].message }).status(400)
+  workOrder.save(function(err) {
       if (err) return res.json({ success: false, message: "An error occured!" });
-      // saved!
-      return res.json({ success: true, message: "New Work Order has been created!" });
+      WorkOrder.find().sort({_id: -1}).exec((err, data) => {
+        return res.json({ success: true, message: "New Work Order has been created!", data: data[0] });     
+       });     
     });
 };
 
@@ -27,10 +28,19 @@ module.exports.view = function(req, res) {
   });
 };
 
+exports.filteredView = (req, res, next)=>{
+  console.log(req.body);
+  WorkOrder.find(req.body).exec((err, doc)=>{
+      if (err) return next(err);
+      console.log(doc)
+      return res.json(doc);
+    })
+}
+
 module.exports.update = function(req, res) {
   let data = req.body;
   const { error } = validation(data);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.json({ success: false, message: error.details[0].message }).status(400)
   WorkOrder.findByIdAndUpdate((req.params.id), data, function(err, data) {
     if (err) return res.status(400).json({message: err.message});
     return res.json({

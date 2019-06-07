@@ -1,8 +1,8 @@
 const Team = require("../models/teams");
 const Joi = require('@hapi/joi');
 
-exports.index = (req, res) => {
-  Team.find().exec((err, data) => {
+exports.index = (req, res, next) => {
+  Team.find().sort({_id: -1}).exec((err, data) => {
     if (err) return next(err);
     return res.json(data);
   });
@@ -12,11 +12,11 @@ exports.add = (req, res) => {
   const data = req.body;
   const team = new Team(data);
   const { error } = validation(data);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.json({ success: false, message: error.details[0].message }).status(400)
     team.save(function(err) {
       if (err) return res.json({ success: false, message: "An error occured!" });
-      // saved!
-      return res.json({ success: true, message: "New Team Created!" });
+      Team.find().sort({_id: -1}).limit(1).exec((err, data) => {
+        return res.json({ success: true, message: "New Team Created!", data: data[0] });      });      
     });
  
 };

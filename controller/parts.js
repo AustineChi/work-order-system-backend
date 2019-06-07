@@ -2,8 +2,8 @@ const Parts = require("../models/parts");
 const Joi = require('@hapi/joi');
 
 
-exports.index = (req, res) => {
-    Parts.find().exec((err, data) => {
+exports.index = (req, res, next) => {
+    Parts.find().sort({_id: -1}).exec((err, data) => {
     if (err) return next(err);
     return res.status(200).json(data);
   });
@@ -13,11 +13,12 @@ exports.add = (req, res) => {
     const data = req.body;
     const part = new Parts(data);
     const { error } = validation(data);
-    if (error) return res.status(400).send(error.details[0].message);
-      part.save(function(err) {
+    if (error) return res.json({ success: false, message: error.details[0].message }).status(400)
+    part.save(function(err) {
         if (err) return res.json({ success: false, message: "An error occured!" });
-        // saved!
-        return res.json({ success: true, message: "Your inventory has been added!" });
+        Parts.find().sort({_id: -1}).limit(1).exec((err, data) => {
+          return res.json({ success: true, message: "Your inventory has been added!", data: data[0] });
+        });       
       });
   };
   
@@ -56,12 +57,12 @@ exports.add = (req, res) => {
       unitCost: Joi.number().integer().required(),
       quantity: Joi.number().integer().required(),
       minimumPartQuantity: Joi.number().integer().required(),
-      partArea: Joi.string().required(),
-      additionalDetails: Joi.string().required(),
+      partArea: Joi.string().required().required(),
+      additionalDetails: Joi.string(),
       assignedCustomers: Joi.array(),
       assignedTeams: Joi.array(),
       assignedUsers: Joi.array(),
-      location: Joi.string(),
+      location: Joi.string().required(),
       partCategory: Joi.string(),
       serialNumber:  Joi.number().integer()
 

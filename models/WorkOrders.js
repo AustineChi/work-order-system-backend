@@ -11,7 +11,7 @@ const workOrderSchema = mongoose.Schema({
     assignedTo: String,
     additionalWorkers: [],
     location: String,
-    assets: String,
+    asset: String,
     parts: [{}],
     updated: { type: Date, default: Date.now }
 });
