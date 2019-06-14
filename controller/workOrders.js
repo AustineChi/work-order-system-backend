@@ -1,4 +1,5 @@
 const WorkOrder = require("../models/workOrders");
+const Parts = require("../models/parts");
 const Joi = require('@hapi/joi');
 
 exports.index = (req, res, next) => {
@@ -29,10 +30,8 @@ module.exports.view = function(req, res) {
 };
 
 exports.filteredView = (req, res, next)=>{
-  console.log(req.body);
   WorkOrder.find(req.body).exec((err, doc)=>{
       if (err) return next(err);
-      console.log(doc)
       return res.json(doc);
     })
 }
@@ -51,6 +50,37 @@ module.exports.update = function(req, res) {
   });
 };
 
+module.exports.updateParts = function(req, res) {
+  let data = req.body;
+  let workOrderParts = [];
+  const rowLen = data.parts.length;
+  function addParts() {
+    return new Promise(function (resolve, reject) {
+  data.parts.map((part, i )=> {
+    Parts.findOne({partName: part.partName}, function(err, _part) {
+      let newQuantity = {
+        quantity: parseInt(_part.quantity) - parseInt(part.quantity)
+      }
+      Parts.findByIdAndUpdate((_part._id), newQuantity, function(err, _data) {
+        workOrderParts.push({partName: part.partName, quantity: part.quantity, cost: (parseInt(_data.unitCost) * parseInt(part.quantity))})
+           if(rowLen ===i + 1) {
+            resolve(workOrderParts);
+           }
+      });
+    });
+  });
+})
+ }
+  addParts().then(function(data){
+    WorkOrder.findByIdAndUpdate((req.params.id), {parts: data}, function(err, kiki) {
+      if (err) return  res.json({ message: "an error occured" })
+      WorkOrder.findOne({ _id: req.params.id }, function(err, _newData) {
+        return res.json({ success: true, message: "Work Order details has been updated!", data: _newData });
+      })
+    });
+  })
+};
+
 module.exports.delete = (req, res) => {
   WorkOrder.deleteOne({ _id: req.params.id }, function(err) {
     if (err) return res.json({message: err.message});
@@ -60,6 +90,9 @@ module.exports.delete = (req, res) => {
 
 function validation(_data) {
   const schema = {
+    _id: Joi.string(),
+    updated: Joi.string(),
+    __v: Joi.number().integer(),
     title: Joi.string().min(3).required(),
     description: Joi.string().min(10).required(),
     estimatedDuration: Joi.number().integer().required(),
@@ -70,7 +103,9 @@ function validation(_data) {
     dueDate: Joi.string().required(),
     asset: Joi.string(),
     recurringSchedule: Joi.string(),
-    additionalWorkers: Joi.array()
+    additionalWorkers: Joi.array(),
+    parts: Joi.array(),
+
   }
   return Joi.validate(_data, schema);
 }

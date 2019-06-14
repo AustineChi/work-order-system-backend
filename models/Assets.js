@@ -9,7 +9,7 @@ const assetSchema = mongoose.Schema({
     location: String,
     area: String,
     parentAsset: String,
-    parts: [{}],
+    parts: Array,
     primaryUser: String,
     assignedUsers: Array,
     assignedTeams: Array,

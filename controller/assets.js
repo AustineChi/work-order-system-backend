@@ -41,11 +41,9 @@ module.exports.update = function(req, res) {
   if (error) return res.status(400).send(error.details[0].message);
   Assets.findByIdAndUpdate((req.params.id), data, function(err, data) {
     if (err) return res.status(400).json({message: err.message});
-    return res.json({
-      success: true,
-      message: "Asset details has been updated!",
-      data: data
-    });
+    Assets.findOne({ _id: req.params.id }, function(err, _data) {
+      return res.json({ success: true, message: "Asset details has been updated!", data: _data });
+    })
   });
 };
 
@@ -59,6 +57,9 @@ module.exports.delete = (req, res) => {
 
 function validation(_data) {
   const schema = {
+    _id: Joi.string(),
+    updated: Joi.string(),
+    __v: Joi.number().integer(),
     assetName: Joi.string().min(3).required(),
     description: Joi.string().min(10).required(),
     assetCategory: Joi.string().required(),
@@ -66,6 +67,7 @@ function validation(_data) {
     primaryUser: Joi.string().required(),
     area: Joi.string(),
     assignedCustomers: Joi.array(),
+    parts: Joi.array(),
     assignedTeams: Joi.array(),
     assignedUsers: Joi.array(),
     model: Joi.string(),
