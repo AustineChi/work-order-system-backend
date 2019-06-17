@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-var partsController = require('../controller/part');
+var partsController = require('../controllers/part');
 
 router.get('/', partsController.index);
 router.post('/add', partsController.add);

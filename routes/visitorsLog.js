@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-var visitorController = require('../controller/visitorsLog');
+var visitorController = require('../controllers/visitorsLog');
 
 router.get('/', visitorController.index);
 router.post('/add', visitorController.add);

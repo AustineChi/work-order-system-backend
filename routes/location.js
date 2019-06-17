@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-var locationController = require('../controller/location');
+var locationController = require('../controllers/location');
 
 router.get('/', locationController.index);
 router.post('/add', locationController.add);

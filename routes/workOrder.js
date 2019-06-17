@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router()
 
 
-var workOrdersController = require('../controller/workOrder');
+var workOrdersController = require('../controllers/workOrder');
 
 router.get('/', workOrdersController.index);
 router.post('/add', workOrdersController.add);

@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router()
 
 
-var teamsController = require('../controller/team');
+var teamsController = require('../controllers/team');
 
 router.get('/', teamsController.index);
 router.post('/add', teamsController.add);

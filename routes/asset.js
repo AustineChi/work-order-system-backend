@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-var assetsController = require('../controller/asset');
+var assetsController = require('../controllers/asset');
 // var userController = require('../controller/user');
 
 // router.get('/', userController.loginRequired, assetsController.index);
