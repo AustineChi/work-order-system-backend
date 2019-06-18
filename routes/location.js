@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 var locationController = require('../controllers/location');
 
+// router.get('/', userController.loginRequired, assetsController.index);
 router.get('/', locationController.index);
 router.post('/add', locationController.add);
 router.get('/view/:id', locationController.view);
