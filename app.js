@@ -47,9 +47,9 @@ app.use('/api/parts', parts);
 app.use('/api/users', users);
 app.use('/api/visitors/log', visitors);
 
-// app.get('/', function(req, res){
-//   res.send("hello world")
-// })
+app.get('/', function(req, res){
+  res.send("hello world")
+})
 
 mongoose.connect(
 process.env.DB_CONNECTION, 
