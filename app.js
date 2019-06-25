@@ -7,12 +7,12 @@ const jwt = require('jsonwebtoken');
 
 
 const assets = require('./routes/asset');
-const workOrders = require('./routes/workOrder')
-const locations = require('./routes/location')
-const teams = require('./routes/team')
-const parts = require('./routes/part')
-const users = require('./routes/user')
-const visitors = require('./routes/visitorsLog')
+const workOrders = require('./routes/workOrder');
+const locations = require('./routes/location');
+const teams = require('./routes/team');
+const parts = require('./routes/part');
+const users = require('./routes/user');
+const visitors = require('./routes/visitorsLog');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -47,6 +47,9 @@ app.use('/api/parts', parts);
 app.use('/api/users', users);
 app.use('/api/visitors/log', visitors);
 
+// app.get('/', function(req, res){
+//   res.send("hello world")
+// })
 
 mongoose.connect(
 process.env.DB_CONNECTION, 

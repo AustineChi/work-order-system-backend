@@ -1,4 +1,5 @@
 const mongoose = require( 'mongoose' );
+// const mongoosePaginate = require('mongoose-paginate-v2');
 
 const workOrderSchema = mongoose.Schema({     
     title: String,
@@ -13,8 +14,12 @@ const workOrderSchema = mongoose.Schema({
     location: String,
     asset: String,
     parts: [{}],
+    creeatedBy: String,
     updated: { type: Date, default: Date.now }
 });
 
+// workOrderSchema.plugin(mongoosePaginate);
 module.exports =  mongoose.model('WorkOrder', workOrderSchema);
+
+
 

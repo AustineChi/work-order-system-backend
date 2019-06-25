@@ -5,9 +5,11 @@ exports.index = (req, res, next) => {
   Location.find()
     .sort({ _id: -1 })
     .exec((err, data) => {
-      if (err) return next(err);
+      if (err) return  console.log(err);
+      console.log("white people")
       return res.json(data);
     });
+    // return res.send([])
 };
 
 exports.add = (req, res) => {

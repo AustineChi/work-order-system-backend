@@ -2,13 +2,29 @@ const WorkOrder = require("../models/workOrder");
 const Parts = require("../models/part");
 const Joi = require("@hapi/joi");
 
-exports.index = (req, res, next) => {
-  WorkOrder.find()
-    .sort({ _id: -1 })
-    .exec((err, data) => {
-      if (err) return next(err);
-      return res.json(data);
-    });
+ exports.index = (req, res, next) => {
+//   const myCustomLabels = {
+//     totalDocs: 'itemCount',
+//     docs: 'itemsList',
+//     limit: 'perPage',
+//     page: 'currentPage',
+//     nextPage: 'next',
+//     prevPage: 'prev',
+//     totalPages: 'pageCount',
+//     pagingCounter: 'slNo',
+//     meta: 'paginator'
+//   };
+   
+//   const options = {
+//     page: 1,
+//     limit: 7,
+//     customLabels: myCustomLabels
+//   };
+
+//   WorkOrder.paginate({}, options, function(err, data) {
+//       if (err) return next(err);
+//       return res.json(data);
+//     });
 };
 
 exports.add = (req, res) => {
