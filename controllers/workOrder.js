@@ -3,28 +3,35 @@ const Parts = require("../models/part");
 const Joi = require("@hapi/joi");
 
  exports.index = (req, res, next) => {
-//   const myCustomLabels = {
-//     totalDocs: 'itemCount',
-//     docs: 'itemsList',
-//     limit: 'perPage',
-//     page: 'currentPage',
-//     nextPage: 'next',
-//     prevPage: 'prev',
-//     totalPages: 'pageCount',
-//     pagingCounter: 'slNo',
-//     meta: 'paginator'
-//   };
+  // const myCustomLabels = {
+  //   totalDocs: 'itemCount',
+  //   docs: 'itemsList',
+  //   limit: 'perPage',
+  //   page: 'currentPage',
+  //   nextPage: 'next',
+  //   prevPage: 'prev',
+  //   totalPages: 'pageCount',
+  //   pagingCounter: 'slNo',
+  //   meta: 'paginator'
+  // };
    
-//   const options = {
-//     page: 1,
-//     limit: 7,
-//     customLabels: myCustomLabels
-//   };
+  // const options = {
+  //   page: 1,
+  //   limit: 7,
+  //   customLabels: myCustomLabels
+  // };
 
-//   WorkOrder.paginate({}, options, function(err, data) {
-//       if (err) return next(err);
-//       return res.json(data);
-//     });
+  // WorkOrder.paginate({}, options, function(err, data) {
+  //     if (err) return next(err);
+  //     return res.json(data);
+  //   });
+
+  WorkOrder.find()
+  .sort({ _id: -1 })
+  .exec((err, data) => {
+    if (err) return next(err);
+    return res.json(data);
+  });
 };
 
 exports.add = (req, res) => {
@@ -149,6 +156,7 @@ function validation(_data) {
     location: Joi.string().required(),
     dueDate: Joi.string().required(),
     asset: Joi.string(),
+    comments: Joi.array(),
     recurringSchedule: Joi.string(),
     additionalWorkers: Joi.array(),
     parts: Joi.array()

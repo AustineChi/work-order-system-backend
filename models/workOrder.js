@@ -14,6 +14,7 @@ const workOrderSchema = mongoose.Schema({
     location: String,
     asset: String,
     parts: [{}],
+    comments: [],
     creeatedBy: String,
     updated: { type: Date, default: Date.now }
 });
