@@ -1,7 +1,7 @@
 {
-  "name": "rensource-backend",
+  "name": "work-order-backend",
   "version": "1.0.0",
-  "description": "rensource express backend application",
+  "description": "work order express backend application",
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js"
